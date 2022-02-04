@@ -1,131 +1,86 @@
 import streamlit as st
-
-import pandas as pd
-import numpy as np #gerando um dataframe aleatório
-import time
-from random import randint
-
-df = pd.DataFrame(
-    np.random.randn(15,10),
-    columns=('col_%d' % i for i in range(10))
- )#tabelas interativas
+import streamlit.components.v1 as components
 
 st.set_page_config(
-    page_title="Teste.io", 
+    page_title="APP.io", 
     page_icon="⚙️", 
     layout="wide", # centered/wide
-    initial_sidebar_state = "collapsed", # auto/expanded/collapsed
-    menu_items={
-         'Get Help': 'https://www.extremelycoolapp.com/help',
-         'Report a bug': "https://www.extremelycoolapp.com/bug",
-         'About': "# This is a header. This is an *extremely* cool app!"
-    }
-  
-  )
+    initial_sidebar_state = "expanded", # auto/expanded/collapsed
+)
+
+
+def local_html(file_name):
+    with open(file_name) as f1:
+        components.html(f1.read(), height=800, scrolling=True)
+
+def home():
+    sm_li = """<a href='https://www.linkedin.com/in/dorneliomori/' target="_blank"><i class=" fa fa-linkedin-square" style="font-size:48px;color:blue"></i></a>"""
+    sm_gg = """<a href='mailto:dmj.tanaka@gmail.com' target="_blank"><i class="fa fa-google-plus-square" style="font-size:48px;color:red"></i></a>"""
+    sm_gh = """<a href='https://github.com/TNK443/Streamit/' target="_blank"><i class="fa fa-github-square" style="font-size:48px;color:black"></i></a>"""
+    sm_ifesSerra = """<a href='https://www.ifes.edu.br/cursos/pos-graduacao/mestrado-em-computacao-aplicada' target="_blank"><img src='https://www.ifes.edu.br/templates/padraogoverno01/favicon-32x32.png'></a>"""
+    sm_ifesColatina = """<a href='https://www.ifes.edu.br/cursos/pos-graduacao/pos-graduacao-lato-sensu-em-conectividade-e-tecnologias-da-informacao' target="_blank"><img src='https://www.ifes.edu.br/templates/padraogoverno01/favicon-32x32.png'></a>"""
+
+    # st.write('___')
+    # st.title('Uso de Anotação Semântica para identificação de requisitos de Privacidade de Dados em Serviços Web', anchor='titulo')
+    # st.write('___')
+    st.subheader('Autores:', anchor='autores')
+    st.write('###### - MORI JR., Dornélio')
+    st.write('[ IFES-Serra | Serra, ES - Brasil | dmj.tanaka@gmail.com ]')
+    st.write('###### - NARDI, Julio Cesar')
+    st.write(f'[ IFES-Colatina | Colatina, ES - Brasil | julionardi@ifes.edu.br ] {sm_ifesColatina}', unsafe_allow_html=True)
+    st.write('###### - RUY, Fabiano Borges')
+    st.write(f'[ IFES-Serra | Serra, ES - Brasil | fabianoruy@ifes.edu.br ] {sm_ifesSerra}', unsafe_allow_html=True)    
+
+    st.write('___')
+    st.header('Introdução', anchor='intro')
+    st.write('Introdução do Artigo.')
+    st.write('Introdução do Artigo.')
+
+    st.write('___')
+    st.header('Seções', anchor='sec')
+    st.write('**Home:** Informações sobre o Trabalho.')
+    st.write('**Aplicação:** Informações da Aplicação/Protótipo.')
+    st.write('**Ontologia:** Ontologia sobre Privacidade de Dados Pessoais.')
+    st.write('**Outras Informações:** ....')
+
+    st.write('___')
+    st.header('Contato', anchor='contato')
+    st.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">', unsafe_allow_html=True)
+    st.write(f'{sm_li}  {sm_gg}  {sm_gh}', unsafe_allow_html=True)
+
+    st.write('___')
+    st.subheader('Source Code, Bugs, Feature Requests', anchor='source')
+    githublink = """<a href='https://github.com/TNK443/Streamit' target="_blank">https://github.com/TNK443/Streamit</a>"""
+    st.write(f'\n\nCheck out the GitHub Repo at: {githublink}. If you find any bugs or have suggestions, please open a new issue and I will look into it.', unsafe_allow_html=True)
+    st.write('___')
+
+
+def app():
+  menuApp = ['Busca', 'Busca OPENAPI']
+  options = st.selectbox('Função:', menuApp)
+  local_html("HTML")
+
 
 def main():
-  with st.spinner('Wait for it...'):
-    time.sleep(5)
-  st.success('Done! \n') 
-  
-  st.title("Streamlit - Title")
-  st.header("Stramlit - Header")
-  st.subheader("Streamlit - Subheader")
-  st.text("Streamlit - Text")
+    st.write('___')
+    st.title('Uso de Anotação Semântica para identificação de requisitos de Privacidade de Dados em Serviços Web', anchor='titulo')
+    st.write('___')
 
-  #formatação
-  st.markdown('Texto em **negrito** ou _itálico_')#Utilização para guardar html
-  st.markdown('[Isso é um texto com html](https://docs.streamlit.io/en/stable/api.html#display-text)',False)
+    st.sidebar.write('___')
+    st.sidebar.title('Uso de Anotação Semântica para identificação de requisitos de Privacidade de Dados em Serviços Web')
+    st.sidebar.caption('(MORI JR, Dornelio; NARDI, Julio Cesarl; RUY, Fabiano Borges)')
+    st.sidebar.write('___')
 
-  st.dataframe(df)#tabelas fixas
-  st.table(df)
-
-  menu = ["Home", "Teste", "About"]
-  choice = st.sidebar.selectbox('Menu', menu)
-  if choice == 'Teste':
-      st.subheader("Streamlit - Subheader - Teste")
-
-
-
-  #Botão
-  if st.button('Gerar número aleatório'):
-    st.write(randint(0, 1000000))
-  else:
-    st.write('Clique no botão acima')
-    
-  #Radio
-  chute = st.radio(
-      "por que essa função se chama radio?",
-      ('Opção 1: porque o rádio é um osso muito bonito',
-      'Opção 2: é uma homenagem à Marie Curie',
-      'Opção 3: as opções lembram botões de rádio')
-  )
-  
-  if chute == 'as opções lembram botões de rádio':
-      st.write('Correto!')
-  else:
-      st.write("Incorreto, tente novamente.")
-
-
-
-  #Barra de arraste
-  bar = st.slider('Isso é um slider',
-      min_value=0,
-      max_value=10,
-      value=5,
-      step=1)
-  st.write("você selecionou: ",bar)
-
-
-
-  #caixa de multiseleção
-  #obs.: utilizando o dataframe criado anteriormente
-  cx_mult = st.multiselect(
-      'Selecione as colunas abaixos',
-      df.columns
-  )
-  st.table(df[cx_mult])
-  st.write(df[cx_mult])
-
-
-
-
-
-  #input de números
-  input_num = st.number_input(
-        'Escreva um número entre 0 e 10',
-        min_value = 0,
-        max_value = 10,
-        value = 0,
-        step = 1
-  )
-  st.write('O número inputado foi: ', input_num)
-  
-  #input de texto
-  input_txt = st.text_input(
-        'Escreva uma palavra com até 5 letras',
-        value = 'juiz',
-        max_chars = 5
-  )
-  st.write('A palavra inputada foi: ', input_txt)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    # Sidebar Navigation
+    menu = ['Home', 'Aplicação', 'Ontologia', '...']
+    options = st.sidebar.selectbox('',menu)
+    if options == 'Home':
+       home()
+    elif options == 'Aplicação':
+      app()
+    else:
+       pass
 
 
 if __name__ == '__main__':
-  main()
-
-# st.write("# Hello!")
-# st.write("## Run exemplo.")
+   main()
