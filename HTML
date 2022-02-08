@@ -1,4 +1,9 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
+
 ul, #myUL {
   list-style-type: none;
 }
@@ -6,6 +11,8 @@ ul, #myUL {
 #myUL {
   margin: 0;
   padding: 0;
+  color:#044269;border:2px solid currentcolor;background-color:#DCDCDC;
+  
 }
 
 .caretN {
@@ -18,9 +25,9 @@ ul, #myUL {
 
 .caretN::before {
   content: "⊡";
-  color: grey;
+  color: #A9A9A9;
   display: inline-block;
-  margin-right: 6px;
+  margin-right: 10px;
 }
 
 .caret {
@@ -31,136 +38,107 @@ ul, #myUL {
   user-select: none;
 }
 
+
 .caret::before {
-  content: "⊞";
-  color: black;
+  content: "⊟";
+  color: grey;
   display: inline-block;
-  margin-right: 6px;
+  margin-right: 10px;
 }
 
 .caret-down::before {
-  content: "⊟";
-  color: grey;
+  content: "⊞";
+  color: black;
+  display: inline-block;
+  margin-right: 10px;
 }
 
 .nested {
-  display: none;
+  display: block;
 }
 
 .active {
-  display: block;
+  display: none;
 }
 </style>
+</head>
+<body>
 
 <h2>Tree View</h2>
 <p>A tree view represents a hierarchical view of information, where each item can have a number of subitems.</p>
 <p>Click on the arrow(s) to open or close the tree branches.</p>
 
-<ul id="myUL">
-  <li><span class="caret">paths:</span>
-    <ul class="nested">
-	  <li><span class="caret">/user/{username}:</span>
-	    <ul class="nested">
-		  <li><span class="caret">put:</span>
-		    <ul class="nested">
-			  <li><span class="caretN">x-operationType: [OperacaoTDP, Aleteracao]</span></li>
-			</ul>
-		  </li>
-		  <li><span class="caret">get:</span>
-		  	<ul class="nested">
-			  <li><span class="caretN">x-operationType: [OperacaoTDP, Consulta]</span></li>
-			</ul>
-		  </li>
-		  <li><span class="caret">delete:</span>
-		  	<ul class="nested">
-			  <li><span class="caretN">x-operationType: [OperacaoTDP, Exclusao]</span></li>
-			</ul>		  
-		  </li>
-		</ul>
-	  </li>
-	  <li><span class="caret">/user/createWithList:</span>
-	    <ul class="nested">
-		  <li><span class="caret">post:</span>
-		    <ul class="nested">
-			  <li><span class="caretN">x-operationType: [OperacaoTDP, Coleta, Armazenamento]</span></li>
-			</ul>
-		  </li>
-		</ul>
-	  </li>
-	  <li><span class="caret">/user:</span>
-	    <ul class="nested">
-		  <li><span class="caret">post:</span>
-		    <ul class="nested">
-			  <li><span class="caretN">x-operationType: [OperacaoTDP, Coleta, Armazenamento]</span></li>
-			</ul>
-		  </li>
-		</ul>
-	  </li>
-	</ul>
-  </li>
-  <li><span class="caret">components:</span>
-    <ul class="nested">
-	  <li><span class="caret">schemas:</span>
-	    <ul class="nested">
-		  <li><span class="caret">User:</span>
-		    <ul class="nested">
-			  <li><span class="caretN">x-refersTo: [PessoaNatural, TitularDP, TDPIdentificavel]</span></li>
-			  <li><span class="caret">properties:</span>
-			    <ul class="nested">
-				  <li><span class="caretN">username: {example: theUser, type: string, x-refersTo: InformacaoIndireta}</span></li>
-				  <li><span class="caretN">phone: {example: 12345, type: string, x-refersTo: DadoPessoal}</span></li>
-				  <li><span class="caretN">lastName: {example: James, type: string, x-refersTo: DadoPessoal}</span></li>
-				  <li><span class="caretN">id: {example: 10, format: int64, type: integer, x-refersTo: InformacaoIndireta}</span></li>
-				  <li><span class="caretN">firstName: {example: John, type: string, x-refersTo: DadoPessoal}</span></li>
-				  <li><span class="caretN">email: {example: john@email.com, type: string, x-refersTo: DadoPessoal}</span></li>
-				</ul>
-			  </li>
-			</ul>
-		  </li>
-		  <li><span class="caret">Customer:</span>
-		    <ul class="nested">
-			  <li><span class="caretN">x-refersTo: [InformacaoIndireta, PessoaNatural, TDPIdentificavel]</span></li>
-			  <li><span class="caret">properties:</span>
-			    <ul class="nested">
-				  <li><span class="caretN">username: {example: fehguy, type: string, x-refersTo: InformacaoIndireta}</span></li>
-				  <li><span class="caretN">id: {example: 100000, format: int64, type: integer, x-refersTo: InformacaoIndireta}</span></li>
-				</ul>
-			  </li>
-			</ul>
-		  </li>
-		  <li><span class="caret">Address:</span>
-		    <ul class="nested">
-			  <li><span class="caretN">x-refersTo: [InformacaoIndireta, DadoPessoal]</span></li>
-			  <li><span class="caret">properties:</span>
-			    <ul class="nested">
-				  <li><span class="caret">zip:</span>
-				    <ul class="nested">
-					  <li><span class="caretN">x-refersTo: [InformacaoIndireta, DadoPessoal]</span></li>
-					</ul>
-				  </li>
-				  <li><span class="caret">street:</span>
-				    <ul class="nested">
-					  <li><span class="caretN">x-refersTo: [InformacaoIndireta, DadoPessoal]</span></li>
-					</ul>				  
-				  </li>
-				  <li><span class="caret">state:</span>
-				    <ul class="nested">
-					  <li><span class="caretN">x-refersTo: [InformacaoIndireta, DadoPessoal]</span></li>
-					</ul>				  
-				  </li>
-				  <li><span class="caret">city:</span>
-				    <ul class="nested">
-					  <li><span class="caretN">x-refersTo: [InformacaoIndireta, DadoPessoal]</span></li>
-					</ul>				  
-				  </li>
-				</ul>
-			  </li>
-			</ul>
-		  </li>
-		</ul>
-	  </li>
-	</ul>
-  </li>
+<ul id="myUL"><p></p>
+
+<li><span class="caret">paths: (line 29)</span><ul class="nested">
+<li><span class="caret">/user: (line 410)</span><ul class="nested">
+<li><span class="caret">post: (line 411)</span><ul class="nested">
+<li><span class="caretN">x-operationType: [OperacaoTDP, Coleta, Armazenamento] (line 412)</span></li>
+</ul></li></ul></li>
+<li><span class="caret">/user/createWithList: (line 440)</span><ul class="nested">
+<li><span class="caret">post: (line 441)</span><ul class="nested">
+<li><span class="caretN">x-operationType: [OperacaoTDP, Coleta, Armazenamento] (line 442)</span></li>
+</ul></li></ul></li>
+<li><span class="caret">'/user/{username}': (line 522)</span><ul class="nested">
+<li><span class="caret">get: (line 523)</span><ul class="nested">
+<li><span class="caretN">x-operationType: [OperacaoTDP, Consulta] (line 524)</span></li>
+</ul></li>
+<li><span class="caret">put: (line 551)</span><ul class="nested">
+<li><span class="caretN">x-operationType: [OperacaoTDP, Aleteracao] (line 552)</span></li>
+</ul></li>
+<li><span class="caret">delete: (line 581)</span><ul class="nested">
+<li><span class="caretN">x-operationType: [OperacaoTDP, Exclusao] (line 582)</span></li>
+</ul></li></ul></li></ul></li>
+<li><span class="caret">components: (line 605)</span><ul class="nested">
+<li><span class="caret">schemas: (line 606)</span><ul class="nested">
+<li><span class="caret">Customer: (line 638)</span><ul class="nested">
+<li><span class="caretN">x-refersTo: [InformacaoIndireta, PessoaNatural, TDPIdentificavel] (line 639)</span></li>
+<li><span class="caret">properties: (line 640)</span><ul class="nested">
+<li><span class="caret">id: (line 641)</span><ul class="nested">
+<li><span class="caretN">x-refersTo: InformacaoIndireta (line 642)</span></li>
+</ul></li>
+<li><span class="caret">username: (line 646)</span><ul class="nested">
+<li><span class="caretN">x-refersTo: InformacaoIndireta (line 647)</span></li>
+</ul></li></ul></li></ul></li>
+<li><span class="caret">Address: (line 660)</span><ul class="nested">
+<li><span class="caretN">x-refersTo: [InformacaoIndireta, DadoPessoal] (line 661)</span></li>
+<li><span class="caret">properties: (line 662)</span><ul class="nested">
+<li><span class="caret">street: (line 663)</span><ul class="nested">
+<li><span class="caretN">x-refersTo: [InformacaoIndireta, DadoPessoal] (line 664)</span></li>
+</ul></li>
+<li><span class="caret">city: (line 667)</span><ul class="nested">
+<li><span class="caretN">x-refersTo: [InformacaoIndireta, DadoPessoal] (line 668)</span></li>
+</ul></li>
+<li><span class="caret">state: (line 671)</span><ul class="nested">
+<li><span class="caretN">x-refersTo: [InformacaoIndireta, DadoPessoal] (line 672)</span></li>
+</ul></li>
+<li><span class="caret">zip: (line 675)</span><ul class="nested">
+<li><span class="caretN">x-refersTo: [InformacaoIndireta, DadoPessoal] (line 676)</span></li>
+</ul></li></ul></li></ul></li>
+<li><span class="caret">User: (line 695)</span><ul class="nested">
+<li><span class="caretN">x-refersTo: [PessoaNatural, TitularDP, TDPIdentificavel] (line 697)</span></li>
+<li><span class="caret">properties: (line 698)</span><ul class="nested">
+<li><span class="caret">id: (line 699)</span><ul class="nested">
+<li><span class="caretN">x-refersTo: InformacaoIndireta (line 700)</span></li>
+</ul></li>
+<li><span class="caret">username: (line 704)</span><ul class="nested">
+<li><span class="caretN">x-refersTo: InformacaoIndireta (line 705)</span></li>
+</ul></li>
+<li><span class="caret">firstName: (line 708)</span><ul class="nested">
+<li><span class="caretN">x-refersTo: DadoPessoal (line 709)</span></li>
+</ul></li>
+<li><span class="caret">lastName: (line 712)</span><ul class="nested">
+<li><span class="caretN">x-refersTo: DadoPessoal (line 713)</span></li>
+</ul></li>
+<li><span class="caret">email: (line 716)</span><ul class="nested">
+<li><span class="caretN">x-refersTo: DadoPessoal (line 717)</span></li>
+</ul></li>
+<li><span class="caret">phone: (line 723)</span><ul class="nested">
+<li><span class="caretN">x-refersTo: DadoPessoal (line 724)</span></li>
+</ul></li></ul></li></ul></li></ul></li></ul></li>
+
+
+<p></p>
 </ul>
 
 <script>
@@ -175,3 +153,6 @@ for (i = 0; i < toggler.length; i++) {
   });
 }
 </script>
+
+</body>
+</html>
