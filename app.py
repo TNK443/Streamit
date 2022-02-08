@@ -75,8 +75,8 @@ def home():
     st.write(f'\n\nCheck out the GitHub Repo at: {githublink}. If you find any bugs or have suggestions, please open a new issue and I will look into it.', unsafe_allow_html=True)
     st.write('___')
 
-def carrega_html(file_name):
-    components.html(file_name, height=500, scrolling=True)
+def carrega_html(file_name, h):
+    components.html(file_name, height=h, scrolling=True)
 
 def aplicacao():
     global static_store
@@ -100,7 +100,11 @@ def aplicacao():
               with st.expander(fl):
                   st.write('## ARQUIVO: '+fl)
                   html_treeview = processa(fl)
-                  carrega_html(html_treeview)
+                  h = len(html_treeview)
+                  if (h > 1271): 
+                      st.write(h)
+                      h=500
+                      carrega_html(html_treeview,h)
                   st.write('___')
 
     elif ('CONCEITO' in opApp):
@@ -227,27 +231,33 @@ def processa(fileproc):
 
     j = len(ln.split('\n'))-1
     htmlListFull.extend((j*htmlC).split())
+    
+    html_treeview = '''
+    <ul id="myUL"><p></p>
+    '''
+
     for ln in htmlListFull: html_treeview += ln
 
 
     html_treeview += '''
-    </ul>
+    <p></p></ul>
     <style>
     ul,#myUL{list-style-type:none;}
-    #myUL{margin:0;padding:0;}
+    #myUL{margin:0;padding:0;
+    color:#044269;border:2px solid currentcolor;background-color:#DCDCDC;}
     .caretN{cursor:default;
     -webkit-user-select:none;/*Safari3.1+*/
     -moz-user-select:none;/*Firefox2+*/
     -ms-user-select:none;/*IE10+*/
     user-select:none;}
-    .caretN::before{content:"⊡";color:grey;display:inline-block;margin-right:6px;}
+    .caretN::before{content:"⊡";color:grey;display:inline-block;margin-right:10px;}
     .caret{cursor:pointer;
     -webkit-user-select:none;/*Safari3.1+*/
     -moz-user-select:none;/*Firefox2+*/
     -ms-user-select:none;/*IE10+*/
     user-select:none;}
-    .caret::before{content:"⊞";color:black;display:inline-block;margin-right:6px;}
-    .caret-down::before{content:"⊟";color:grey;}
+    .caret::before{content:"⊞";color:black;display:inline-block;margin-right:10px;}
+    .caret-down::before{content:"⊟";color:grey;display:inline-block;margin-right:10px;}
     .nested{display:none;}
     .active{display:block;}
     </style>
