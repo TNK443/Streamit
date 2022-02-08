@@ -244,20 +244,20 @@ def processa(fileproc):
     <style>
     ul,#myUL{list-style-type:none;}
     #myUL{margin:0;padding:0;
-    color:#00008B;border:2px solid currentcolor;background-color:#F8F8FF;}
+    color:#DCDCDC;border:2px solid currentcolor;background-color:#044269;}
     .caretN{cursor:default;
     -webkit-user-select:none;/*Safari3.1+*/
     -moz-user-select:none;/*Firefox2+*/
     -ms-user-select:none;/*IE10+*/
     user-select:none;}
-    .caretN::before{content:"⊡";color:grey;display:inline-block;margin-right:10px;}
+    .caretN::before{content:"⊡";color:#DCDCDC;display:inline-block;margin-right:10px;}
     .caret{cursor:pointer;
     -webkit-user-select:none;/*Safari3.1+*/
     -moz-user-select:none;/*Firefox2+*/
     -ms-user-select:none;/*IE10+*/
     user-select:none;}
-    .caret::before{content:"⊞";color:black;display:inline-block;margin-right:10px;}
-    .caret-down::before{content:"⊟";color:grey;display:inline-block;margin-right:10px;}
+    .caret::before{content:"⊞";color:#DCDCDC;display:inline-block;margin-right:10px;}
+    .caret-down::before{content:"⊟";color:#DCDCDC;display:inline-block;margin-right:10px;}
     .nested{display:none;}
     .active{display:block;}
     </style>
