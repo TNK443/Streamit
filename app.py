@@ -1,4 +1,4 @@
-sudo pip3 install pydantic
+import pydantic
 
 import streamlit as st
 import streamlit.components.v1 as components
