@@ -1,4 +1,4 @@
-!pip  install streamlit-pydantic
+pip  install streamlit-pydantic
 
 
 import streamlit as st
