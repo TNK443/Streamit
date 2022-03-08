@@ -121,7 +121,7 @@ def processa(fileproc):
     <style>
     ul,#myUL{list-style-type:none;}
     #myUL{margin:0;padding:0;
-    color:#2d465b;border:1px solid currentcolor;background-color:#044269;}
+    color:#dcdcdc;border:1px solid currentcolor;background-color:#044269;}
     .caretN{cursor:default;
     -webkit-user-select:none;/*Safari3.1+*/
     -moz-user-select:none;/*Firefox2+*/
