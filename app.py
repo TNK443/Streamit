@@ -302,8 +302,11 @@ def main():
                             st.code(string_data, language='yaml')
                             st.write('')
     ontology_IMG = '''
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <p style="text-align: right;">
-        <a target="_blank" href="OntoPrivacy.PNG" style="text-decoration:none;color:currentcolor;"> ( OntologyPrivacy ) </a>
+        <a target="_blank" href="https://raw.githubusercontent.com/TNK443/Streamit/main/OntoPrivacy.PNG" style="text-decoration:none;color:currentcolor;">
+        <i class="fa fa-connectdevelop" style="font-size:22px;color:currentcolor;"> OntoPrivacy </i>
+        </a>
         </p>
     '''
     st.markdown(ontology_IMG, unsafe_allow_html=True)
