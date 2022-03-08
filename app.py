@@ -191,6 +191,8 @@ def main():
             .css-po3vlj:focus {box-shadow: rgb(157, 181, 177) 0px 0px 0px 1px;}
             .css-paap06-EmotionIconBase {color: rgb(99, 106, 120);}
 
+            .css-12oz5g7 {padding: 2rem 1rem 10rem;}
+            
             #MainMenu {visibility: hidden;}
             footer {visibility: hidden;}
             </style>
