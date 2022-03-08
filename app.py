@@ -12,7 +12,7 @@ def get_static_store() -> Dict:
 def carrega_html(file_name,h):
     components.html(file_name, height=h, scrolling=True)
 
-def processa(fileproc): 
+def processa(fileproc,anotSearch): 
 # ----------------------------------------------------------------------------------------------------
 # Trabalhando os Arquivos como TEXTO - GERANDO HTML
 # ----------------------------------------------------------------------------------------------------
@@ -38,7 +38,7 @@ def processa(fileproc):
               i+=1
               aux=''
           if (chr == '\n'):
-              if (aux!=''):
+              if (aux!='') and (aux!='\r'):
                 if (i<=9): auxLHierarquia.append('0'+str(i)+aux+' (line '+str(lnCount)+')')
                 else: auxLHierarquia.append(str(i)+aux+' (line '+str(lnCount)+')')
               i=0
@@ -61,10 +61,27 @@ def processa(fileproc):
     htmlList=[]
 
     for ln in aux:
-        if (ln.find('x-')>0):
-            ln_ = ln.strip()
-            ln_ = ln_.split(':')[0]
-            if (ln_[2:]) in extensaoOAS:
+        if (anotSearch.strip() == ''):
+            if (ln.find('x-')>0):
+                ln_ = ln.strip()
+                ln_ = ln_.split(':')[0]
+                if (ln_[2:]) in extensaoOAS:
+                    i+=1
+                    x=(int(ln[:2])-1)                
+                    caminhoCompleto += htmlD
+                    caminhoCompleto += ln[2:]
+                    caminhoCompleto += htmlE
+                    for j in auxPHierarquia:
+                        if (int(j[:2]) == x):
+                            caminhoCompleto = htmlA + j[2:] + htmlB + '\n' + caminhoCompleto #+ htmlC
+                            if (x==0): break
+                            else: x-=1
+                    htmlList.append(caminhoCompleto)
+                    caminhoCompleto=''
+        else:
+            if (ln.find(anotSearch.strip())>0):
+                ln_ = ln.strip()
+                ln_ = ln_.split(':')[1]
                 i+=1
                 x=(int(ln[:2])-1)                
                 caminhoCompleto += htmlD
@@ -198,6 +215,7 @@ def main():
             footer {visibility: hidden;}
             </style>
         '''
+
     st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
     st.title("🔎 Privacy Finder")
@@ -254,7 +272,7 @@ def main():
                 if st.form_submit_button(label="OK", help=None, on_click=None, args=None, kwargs=None):
                   for fl in static_store.keys():
                       with st.expander(('📄 '+fl)):
-                          html_treeview = processa(fl)
+                          html_treeview = processa(fl,'')
                           h = len(html_treeview)
                           if (h > 1400): 
                               h=300
@@ -262,12 +280,16 @@ def main():
                           st.write('___')
             elif ('CONCEITO' in opApp):
                 st.write('___')
-                busca = st.text_input('Buscar por:', '')
+                busca = st.text_input('Buscar por:')
                 if st.form_submit_button(label="Buscar", help=None, on_click=None, args=None, kwargs=None):
-                    st.write('___')
-                    st.text('Resultado:')
-                    if (busca != ''):
-                      st.write('OK')
+                    for fl in static_store.keys():
+                      with st.expander(('📄 '+fl)):
+                          html_treeview = processa(fl,busca)
+                          h = len(html_treeview)
+                          if (h > 1400): 
+                              h=300
+                              carrega_html(html_treeview,h)
+                          st.write('___')
             elif ('VIEW' in opApp):
                 st.write('___')
                 if st.form_submit_button(label="OK", help=None, on_click=None, args=None, kwargs=None):
