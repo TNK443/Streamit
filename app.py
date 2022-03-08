@@ -172,6 +172,8 @@ def main():
     hide_streamlit_style = \
         '''
             <style>
+            .viewerBadge_container__1QSob {visibility:hidden;}
+            
             .css-fg4pbf {background: rgb(242, 242, 242) none repeat scroll 0% 0%;}
             .css-ffhzg2 {background: rgb(61, 70, 87) none repeat scroll 0% 0%;}
             .css-1cpxqw2 {background-color: rgb(185, 213, 206);
@@ -192,8 +194,6 @@ def main():
             .css-paap06-EmotionIconBase {color: rgb(99, 106, 120);}
 
             .css-12oz5g7 {padding: 2rem 1rem 10rem;}
-            .viewerBadge_container__1QSob {visibility:hidden;}
-            
             #MainMenu {visibility: hidden;}
             footer {visibility: hidden;}
             </style>
