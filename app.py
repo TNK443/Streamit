@@ -1,24 +1,167 @@
 import streamlit as st
 import streamlit.components.v1 as components
-import streamlit_pydantic as sp
 
-from streamlit_pydantic.types import FileContent
-from pydantic import BaseModel, Field
-from typing import Optional, List
+from typing import Dict
 from io import StringIO
 
-class ExampleModel(BaseModel):
-    load_repository: Optional[List[FileContent]] = Field(
-        None,
-        description="Carregue (Upload) o Repositório de API's OpenAPI v3 ( .yaml ). ",
-        st_kwargs_type=["yaml"],
-    )
+@st.cache(allow_output_mutation=True)
+def get_static_store() -> Dict:
+    # """This dictionary is initialized once and can be used to store the files uploaded"""
+    return {}
 
 def carrega_html(file_name,h):
     components.html(file_name, height=h, scrolling=True)
 
+def processa(fileproc): 
+# ----------------------------------------------------------------------------------------------------
+# Trabalhando os Arquivos como TEXTO - GERANDO HTML
+# ----------------------------------------------------------------------------------------------------
+    global static_store
+    global html_treeview
+
+    lnCount = 0
+    i = 0
+    aux = ''
+    auxLHierarquia = []
+    auxPHierarquia = []
+
+    extensaoOAS = ['x-refersTo','x-kindOf','x-mapsTo','x-collectionOn','x-onResource','x-operationType']
+
+    stringio = static_store.get(fileproc)
+    lines = stringio.readlines()
+    for ln in range(len(lines)):
+        lnCount+=1
+        line = lines[ln]
+        for chr in line:
+          if (aux == '- '): aux=''
+          if (aux == '  '):
+              i+=1
+              aux=''
+          if (chr == '\n'):
+              if (aux!=''):
+                if (i<=9): auxLHierarquia.append('0'+str(i)+aux+' (line '+str(lnCount)+')')
+                else: auxLHierarquia.append(str(i)+aux+' (line '+str(lnCount)+')')
+              i=0
+              aux = ''
+              continue
+          aux += chr
+    # --------------------------------------------------------
+    aux = auxLHierarquia.copy()
+    aux.reverse()
+    for _ in aux: auxPHierarquia.append(_)
+    # --------------------------------------------------------
+    i,x=0,0
+    caminhoCompleto=''
+
+    htmlA='<li><span class="caret">'
+    htmlB='</span><ul class="nested">'
+    htmlC='</ul></li>'
+    htmlD='<li><span class="caretN">'
+    htmlE='</span></li>'
+    htmlList=[]
+
+    for ln in aux:
+        if (ln.find('x-')>0):
+            ln_ = ln.strip()
+            ln_ = ln_.split(':')[0]
+            if (ln_[2:]) in extensaoOAS:
+                i+=1
+                x=(int(ln[:2])-1)                
+                caminhoCompleto += htmlD
+                caminhoCompleto += ln[2:]
+                caminhoCompleto += htmlE
+                for j in auxPHierarquia:
+                    if (int(j[:2]) == x):
+                        caminhoCompleto = htmlA + j[2:] + htmlB + '\n' + caminhoCompleto #+ htmlC
+                        if (x==0): break
+                        else: x-=1
+                htmlList.append(caminhoCompleto)
+                caminhoCompleto=''
+        auxPHierarquia.pop(0)
+
+    if (i == 0):
+        st.write('')
+        st.write('**>> Nenhuma anotação encontrada!!!**')
+    else:
+        st.write('**'+str(i)+' anotação(ões) encontrada(s)!!!**')
+    # --------------------------------------------------------
+    htmlListFull=[]
+    A,B,B_=[],[],[]
+    htmlList.reverse()
+    for ln in htmlList:
+        if (htmlListFull!=[]):
+            i=0
+            j = len(A)-1
+            B = ln.split('\n')
+            B_= ln.split('\n')
+            while 1:
+                  if (A[i]==B[i]):
+                      j-=1
+                      B_.pop(0)
+                  else:
+                      htmlListFull.extend((j*htmlC).split())
+                      htmlListFull.extend(B_)
+                      A = ln.split('\n')
+                      break
+                  i+=1             
+        else:
+            htmlListFull = ln.split('\n')
+            A = ln.split('\n')
+    j = len(ln.split('\n'))-1
+    htmlListFull.extend((j*htmlC).split())
+    
+    html_treeview = '''
+    <ul id="myUL"><p></p>
+    '''
+    
+    for ln in htmlListFull: html_treeview += ln
+
+    html_treeview += '''
+    <p></p></ul>
+    <style>
+    ul,#myUL{list-style-type:none;}
+    #myUL{margin:0;padding:0;
+    color:rgb(16, 134, 114);border:1px solid currentcolor;background-color:rgb(185, 213, 206);}
+    .caretN{cursor:default;
+    -webkit-user-select:none;/*Safari3.1+*/
+    -moz-user-select:none;/*Firefox2+*/
+    -ms-user-select:none;/*IE10+*/
+    user-select:none;}
+    .caretN::before{content:"⊡";color:rgb(255, 255, 255);display:inline-block;margin-right:10px;}
+    .caret{cursor:pointer;
+    -webkit-user-select:none;/*Safari3.1+*/
+    -moz-user-select:none;/*Firefox2+*/
+    -ms-user-select:none;/*IE10+*/
+    user-select:none;}
+    .caret::before{content:"⊞";color:rgb(0, 0, 0);display:inline-block;margin-left:10px;margin-right:10px;}
+    .caret-down::before{content:"⊟";color:rgb(0, 0, 0);display:inline-block;margin-right:10px;}
+    .nested{display:none;}
+    .active{display:block;}
+    </style>
+
+    <script>
+    var toggler = document.getElementsByClassName("caret");
+    var toggler1 = document.getElementsByClassName("caretN");
+    var i;
+
+    for (i = 0; i < toggler.length; i++) {
+      toggler[i].addEventListener("click", function() {
+        this.parentElement.querySelector(".nested").classList.toggle("active");
+        this.classList.toggle("caret-down");
+      });
+    }
+    </script>
+    '''
+
+    return html_treeview
+    # --------------------------------------------------------
+    # ----------------------------------------------------------------------------------------------------
+
 
 def main():
+    global static_store
+    global html_treeview
+
     st.set_page_config(
       page_title="APP.io", 
       page_icon="⚙️", 
@@ -54,38 +197,85 @@ def main():
         '''
     st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
-
     st.title("🔎 Privacy Finder")
     st.text("Find data privacy requirements.")
 
     tagBusca = False
     with st.form(key="pydantic_form"):
         st.subheader("🗃️ STEP 1: Carregar Repositório")
-        data = sp.pydantic_input(key="my_form", model=ExampleModel)
-        # st.write('___')
-        if data["load_repository"]!=[]:
-            st.form_submit_button(label="View Repository", help=None, on_click=None, args=None, kwargs=None)
-            for _ in data["load_repository"]:
-                with st.expander(""):
-                    string_data = StringIO(_.decode("utf-8")).read()
-                    st.write('')
-                    st.code(string_data, language='yaml')
-                    st.write('')
+        
+        html_treeview = '''
+        '''
+
+        static_store = get_static_store()
+        static_storeA = static_store.copy()
+        
+        results = st.file_uploader('Load Repository', type='yaml', accept_multiple_files=True)
+        if results is not None:
+            # Process you file here
+            for result in results:
+              value = StringIO(result.getvalue().decode("utf-8"))
+              # And add it to the static_store if not already in
+              if not value in static_store.values():
+                  static_store[result.name] = value
+        else:
+            # Hack to clear list if the user clears the cache and reloads the page
+            static_store.clear()  
+            st.info("Upload one or more files.")
+        
+        st.write('')
+        
+        if static_store:
+            st.form_submit_button(label="Load", help=None, on_click=None, args=None, kwargs=None)
+            st.write('')
+            if (results == []): static_store.clear()
             tagBusca = True
         else: 
-            st.form_submit_button(label="View Repository", help=None, on_click=None, args=None, kwargs=None)
+            st.form_submit_button(label="Load", help=None, on_click=None, args=None, kwargs=None)
             st.write('')
+            if (results == []): static_store.clear()
+            tagBusca = False
     
-
     if tagBusca:
         with st.form(key="find_form"):
             st.subheader("🔍 STEP 2: Buscar")
             st.text("Lista os Requisitos de Privacidade de Dados na API.")
-
             menuApp = ['...','ALL - Carrega todas as Anotações da API', 
-                      'CONCEITO - Busca as Anotações da API por Conceitos']
+                      'CONCEITO - Busca as Anotações da API por Conceitos',
+                      'VIEW - Vizualiza a(s) API(s) carregadas']
             opApp = st.selectbox('Escolha uma Opção:', menuApp, index=0)
-            st.form_submit_button(label="OK", help=None, on_click=None, args=None, kwargs=None)
-        
+            if ('...' in opApp):
+                st.form_submit_button(label="OK", help=None, on_click=None, args=None, kwargs=None)
+            elif ('ALL' in opApp):
+                st.write('___')
+                if st.form_submit_button(label="OK", help=None, on_click=None, args=None, kwargs=None):
+                  for fl in static_store.keys():
+                      with st.expander(('📄 '+fl)):
+                          html_treeview = processa(fl)
+                          h = len(html_treeview)
+                          if (h > 1400): 
+                              h=300
+                              carrega_html(html_treeview,h)
+                          st.write('___')
+            elif ('CONCEITO' in opApp):
+                st.write('___')
+                busca = st.text_input('Buscar por:', '')
+                if st.form_submit_button(label="Buscar", help=None, on_click=None, args=None, kwargs=None):
+                    st.write('___')
+                    st.text('Resultado:')
+                    if (busca != ''):
+                      st.write('OK')
+            elif ('VIEW' in opApp):
+                st.write('___')
+                if st.form_submit_button(label="OK", help=None, on_click=None, args=None, kwargs=None):
+                    st.write('')
+                    for fl in static_storeA.keys():
+                        with st.expander(fl):
+                            strIO = static_storeA.get(fl)
+                            string_data = strIO.read()
+                            st.write('')
+                            st.code(string_data, language='yaml')
+                            st.write('')
+  
 if __name__ == '__main__':
    main()
