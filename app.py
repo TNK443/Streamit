@@ -301,6 +301,12 @@ def main():
                             st.write('')
                             st.code(string_data, language='yaml')
                             st.write('')
-  
+    ontology_IMG = '''
+        <p style="text-align: right;">
+        <a target="_blank" href="OntoPrivacy.PNG" style="text-decoration:none;color:currentcolor;"> ( OntologyPrivacy ) </a>
+        </p>
+    '''
+    st.markdown(ontology_IMG, unsafe_allow_html=True)
+    
 if __name__ == '__main__':
    main()
