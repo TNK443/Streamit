@@ -138,7 +138,7 @@ def processa(fileproc,anotSearch):
     <style>
     ul,#myUL{list-style-type:none;}
     #myUL{margin:0;padding:0;
-    color:#dcdcdc;border:1px solid currentcolor;background-color:#044269;}
+    color:#dcdcdc;border:1px solid currentcolor;background-color:#012646;}
     .caretN{cursor:default;
     -webkit-user-select:none;/*Safari3.1+*/
     -moz-user-select:none;/*Firefox2+*/
@@ -150,8 +150,8 @@ def processa(fileproc,anotSearch):
     -moz-user-select:none;/*Firefox2+*/
     -ms-user-select:none;/*IE10+*/
     user-select:none;}
-    .caret::before{content:"⊞";color:#01203b;display:inline-block;margin-left:10px;margin-right:10px;}
-    .caret-down::before{content:"⊟";color:#01203b;display:inline-block;margin-left:10px;margin-right:10px;}
+    .caret::before{content:"⊞";color:#044269;display:inline-block;margin-left:10px;margin-right:10px;}
+    .caret-down::before{content:"⊟";color:#044269;display:inline-block;margin-left:10px;margin-right:10px;}
     .nested{display:none;}
     .active{display:block;}
     </style>
