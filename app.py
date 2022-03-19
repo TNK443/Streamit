@@ -1,3 +1,7 @@
+# ----------------------------------------------------------------------------------------------------
+# CODIGO PARA CRIAR O APP.PY
+# ----------------------------------------------------------------------------------------------------
+%%writefile app.py
 import streamlit as st
 import streamlit.components.v1 as components
 
@@ -138,20 +142,20 @@ def processa(fileproc,anotSearch):
     <style>
     ul,#myUL{list-style-type:none;}
     #myUL{margin:0;padding:0;
-    color:#dcdcdc;border:1px solid currentcolor;background-color:#044269;}
+    color:rgb(16, 134, 114);border:1px solid currentcolor;background-color:rgb(185, 213, 206);}
     .caretN{cursor:default;
     -webkit-user-select:none;/*Safari3.1+*/
     -moz-user-select:none;/*Firefox2+*/
     -ms-user-select:none;/*IE10+*/
     user-select:none;}
-    .caretN::before{content:"⊡";color:#dcdcdc;display:inline-block;margin-right:10px;}
+    .caretN::before{content:"⊡";color:rgb(255, 255, 255);display:inline-block;margin-left:10px;margin-right:10px;}
     .caret{cursor:pointer;
     -webkit-user-select:none;/*Safari3.1+*/
     -moz-user-select:none;/*Firefox2+*/
     -ms-user-select:none;/*IE10+*/
     user-select:none;}
-    .caret::before{content:"⊞";color:#dcdcdc;display:inline-block;margin-left:10px;margin-right:10px;}
-    .caret-down::before{content:"⊟";color:#dcdcdc;display:inline-block;margin-right:10px;}
+    .caret::before{content:"⊞";color:rgb(0, 0, 0);display:inline-block;margin-left:10px;margin-right:10px;}
+    .caret-down::before{content:"⊟";color:rgb(0, 0, 0);display:inline-block;margin-left:10px;margin-right:10px;}
     .nested{display:none;}
     .active{display:block;}
     </style>
@@ -190,7 +194,7 @@ def main():
         '''
             <style>
             .viewerBadge_container__1QSob {visibility:hidden;}
-            
+
             .css-fg4pbf {background: rgb(242, 242, 242) none repeat scroll 0% 0%;}
             .css-ffhzg2 {background: rgb(61, 70, 87) none repeat scroll 0% 0%;}
             .css-1cpxqw2 {background-color: rgb(185, 213, 206);
@@ -210,9 +214,12 @@ def main():
             .css-po3vlj:focus {box-shadow: rgb(157, 181, 177) 0px 0px 0px 1px;}
             .css-paap06-EmotionIconBase {color: rgb(99, 106, 120);}
 
+
             .css-12oz5g7 {padding: 2rem 1rem 10rem;}
+            
             #MainMenu {visibility: hidden;}
             footer {visibility: hidden;}
+
             </style>
         '''
 
@@ -280,7 +287,18 @@ def main():
                           st.write('___')
             elif ('CONCEITO' in opApp):
                 st.write('___')
-                busca = st.text_input('Buscar por:')
+                
+                conceitos = ['Alteração','Anonimidade','Anonimização','Armazenamento','Ator Autorizado',
+                 'Ator Desautorizado','Coleta','Conjunto de Operações de TDP','Consentimento',
+                 'Consulta','Controlador','Dado Anonimizado','Dado Pessoal (DP)','Dado Sensível',
+                 'Disponibilização','Divulgação','Exclusão','Informação','Operação de TDP','Operador',
+                 'Parte Interessada na Privacidade','Pessoa','Pessoa Jurídica','Pessoa Natural',
+                 'Pseudonimização','Recuperação','TDP Autorizado','Terceiro','Titular de DP',
+                 'Titular Identificado','Titular Identificável','Titular Inidentificável',
+                 'Tratamento de Dados Pessoais (TDP)']
+                
+                # busca = st.text_input('Buscar por:')
+                busca = st.selectbox('Buscar por:', conceitos, index=0)
                 if st.form_submit_button(label="Buscar", help=None, on_click=None, args=None, kwargs=None):
                     for fl in static_store.keys():
                       with st.expander(('📄 '+fl)):
@@ -301,6 +319,7 @@ def main():
                             st.write('')
                             st.code(string_data, language='yaml')
                             st.write('')
+  
     ontology_IMG = '''
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <p style="text-align: right;">
@@ -310,6 +329,8 @@ def main():
         </p>
     '''
     st.markdown(ontology_IMG, unsafe_allow_html=True)
-    
+
 if __name__ == '__main__':
    main()
+
+# ----------------------------------------------------------------------------------------------------
