@@ -1,7 +1,3 @@
-# ----------------------------------------------------------------------------------------------------
-# CODIGO PARA CRIAR O APP.PY
-# ----------------------------------------------------------------------------------------------------
-%%writefile app.py
 import streamlit as st
 import streamlit.components.v1 as components
 
@@ -30,7 +26,7 @@ def processa(fileproc,anotSearch):
     auxPHierarquia = []
 
     extensaoOAS = ['x-refersTo','x-kindOf','x-mapsTo','x-collectionOn','x-onResource','x-operationType']
-
+    
     stringio = static_store.get(fileproc)
     lines = stringio.readlines()
     for ln in range(len(lines)):
