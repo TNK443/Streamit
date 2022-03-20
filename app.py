@@ -26,7 +26,7 @@ def processa(fileproc,anotSearch):
     auxPHierarquia = []
 
     extensaoOAS = ['x-refersTo','x-kindOf','x-mapsTo','x-collectionOn','x-onResource','x-operationType']
-    
+
     stringio = static_store.get(fileproc)
     lines = stringio.readlines()
     for ln in range(len(lines)):
@@ -79,7 +79,8 @@ def processa(fileproc,anotSearch):
                     htmlList.append(caminhoCompleto)
                     caminhoCompleto=''
         else:
-            if (ln.find(anotSearch.strip())>0):
+            if (ln.find('x-')>0) and (ln.lower().find(anotSearch.lower().strip())>0): #CaseSensitive OFF
+            # if (ln.find('x-')>0) and (ln.find(anotSearch.strip())>0): #CaseSensitive ON
                 ln_ = ln.strip()
                 ln_ = ln_.split(':')[1]
                 i+=1
@@ -132,7 +133,7 @@ def processa(fileproc,anotSearch):
     '''
     
     for ln in htmlListFull: html_treeview += ln
-
+        
     html_treeview += '''
     <p></p></ul>
     <style>
@@ -267,7 +268,7 @@ def main():
             menuApp = ['...','ALL - Carrega todas as Anotações da API', 
                       'CONCEITO - Busca as Anotações da API por Conceitos',
                       'VIEW - Vizualiza a(s) API(s) carregadas']
-            opApp = st.selectbox('Escolha uma Opção:', menuApp, index=0)
+            opApp = st.selectbox('Escolha uma Opção:', menuApp, index=0, help='Escolha uma opção de Busca.')
             if ('...' in opApp):
                 st.form_submit_button(label="OK", help=None, on_click=None, args=None, kwargs=None)
             elif ('ALL' in opApp):
@@ -294,7 +295,7 @@ def main():
                  'Tratamento de Dados Pessoais (TDP)']
                 
                 # busca = st.text_input('Buscar por:')
-                busca = st.selectbox('Buscar por:', conceitos, index=0)
+                busca = st.selectbox('Buscar por:', conceitos, index=0, help='**Selecione um Conceito!** Busca por meio de um dos **Conceitos** da **OntoPrivacy**.')
                 if st.form_submit_button(label="Buscar", help=None, on_click=None, args=None, kwargs=None):
                     for fl in static_store.keys():
                       with st.expander(('📄 '+fl)):
