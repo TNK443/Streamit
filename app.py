@@ -267,7 +267,7 @@ def main():
             st.text("Lista os Requisitos de Privacidade de Dados na API.")
             menuApp = ['...','ALL - Carrega todas as Anotações da API', 
                       'CONCEITO - Busca as Anotações da API por Conceitos',
-                      'VIEW - Vizualiza a(s) API(s) carregadas']
+                      'VIEW - Visualiza a(s) API(s) carregadas']
             opApp = st.selectbox('Escolha uma Opção:', menuApp, index=0, help='Escolha uma opção de Busca.')
             if ('...' in opApp):
                 st.form_submit_button(label="OK", help=None, on_click=None, args=None, kwargs=None)
